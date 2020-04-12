@@ -22,13 +22,17 @@ module.exports = class {
     listen() {
         this.dockerEvent.on('network.connect', (ev) => {
             this.getInfoForNetwork(ev)
-                .then((x) => this.emiter.emit('netUp', x))
+                .then((x) => {
+                    if (x) this.emiter.emit('netUp', x)
+                })
                 .catch((ex) => console.log(ex))
         })
 
         this.dockerEvent.on('network.disconnect', (ev) => {
             this.getInfoForNetwork(ev)
-                .then((x) => this.emiter.emit('netDown', x))
+                .then((x) => {
+                    if (x) this.emiter.emit('netDown', x)
+                })
                 .catch((ex) => console.log(ex))
         })
 
@@ -48,7 +52,6 @@ module.exports = class {
                 .catch((ex) => console.log(ex))
         })
 
-
         this.dockerEvent.on('container.die', (ev) => {
             this.getRSX(ev)
                 .then((x) => {
@@ -60,7 +63,7 @@ module.exports = class {
 
     /**
      * Helper for network event
-     * @param {DockerEvent} ev 
+     * @param {DockerEvent} ev
      */
     getInfoForNetwork(ev) {
         return new Promise((res, rej) => {
@@ -68,7 +71,11 @@ module.exports = class {
                 .getContainer(ev.Actor.Attributes.container)
                 .inspect()
                 .then((data) => {
-                    res({ net: ev.Actor.Attributes.name, sys: data.Name })
+                    if (data.Config.Labels.dockerNetIgnore === undefined) {
+                        res({ net: ev.Actor.Attributes.name, sys: data.Name })
+                    } else {
+                        res(false)
+                    }
                 })
                 .catch((ex) => rej(ex))
         })
@@ -76,7 +83,7 @@ module.exports = class {
 
     /**
      * Helper for lifeCycle container
-     * @param {DockerEvent} ev      
+     * @param {DockerEvent} ev
      */
     getRSX(ev) {
         return new Promise((res, rej) => {
@@ -84,8 +91,14 @@ module.exports = class {
                 .getContainer(ev.id)
                 .inspect()
                 .then((data) => {                    
-                    if (Object.keys(data.HostConfig.PortBindings).length > 0) {
-                        res({ sys: data.Name, net: 'Internet' })
+                    if (data.Config.Labels.dockerNetIgnore === undefined) {
+                        if (
+                            Object.keys(data.HostConfig.PortBindings).length > 0
+                        ) {
+                            res({ sys: data.Name, net: 'Internet' })
+                        } else {
+                            res(false)
+                        }
                     } else {
                         res(false)
                     }
@@ -135,16 +148,20 @@ module.exports = class {
                 const infos = await this.getInfo(list)
 
                 for (let info of infos) {
-                    const net = info.NetworkSettings.Networks
+                    if (info.Config.Labels.dockerNetIgnore === undefined) {
+                        const net = info.NetworkSettings.Networks
 
-                    if (Object.keys(info.HostConfig.PortBindings).length > 0) {
-                        info.NetworkSettings.Networks['Internet'] = true
-                    }
+                        if (
+                            Object.keys(info.HostConfig.PortBindings).length > 0
+                        ) {
+                            info.NetworkSettings.Networks['Internet'] = true
+                        }
 
-                    systems[info.Name] = new Array()
-                    for (let k of Object.keys(net)) {
-                        if (networks.includes(k) === false) networks.push(k)
-                        systems[info.Name].push(k)
+                        systems[info.Name] = new Array()
+                        for (let k of Object.keys(net)) {
+                            if (networks.includes(k) === false) networks.push(k)
+                            systems[info.Name].push(k)
+                        }
                     }
                 }
                 res({ networks, systems })

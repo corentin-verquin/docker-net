@@ -5,9 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "docker-event-emitter": "^0.3.0",
-    "dockerode": "^3.2.0",
+    "dockerode": "^3.2.1",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^3.0.4"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -16,17 +16,17 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "browser-sync": "^2.26.7",
-    "concurrently": "^5.1.0",
-    "del": "^5.1.0",
+    "babel-loader": "^8.2.2",
+    "browser-sync": "^2.26.13",
+    "concurrently": "^5.3.0",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-cli": "^2.2.0",
+    "gulp-cli": "^2.3.0",
     "vinyl-named": "^1.1.0",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^6.1.1"
   },
   "scripts": {
     "build": "NODE_ENV=PROD gulp build",

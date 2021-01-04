@@ -26,7 +26,7 @@
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "vinyl-named": "^1.1.0",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^6.1.1"
   },
   "scripts": {
     "build": "NODE_ENV=PROD gulp build",

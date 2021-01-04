@@ -30,6 +30,6 @@
   },
   "scripts": {
     "build": "NODE_ENV=PROD gulp build",
-    "develop": "NODE_ENV=DEV concurrently \"nodemon index.js\" \"gulp develop\""
+    "develop": "NODE_ENV=DEV gulp develop"
   }
 }

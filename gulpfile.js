@@ -14,7 +14,11 @@ const config = {
 
 /** BROWSER SYNC */
 const serve = (done) => {
-    server.init({ proxy: 'localhost:5678' })
+    server.init({
+        server: {
+            baseDir: config.out
+        }
+    })
     done()
 }
 const reload = (done) => {

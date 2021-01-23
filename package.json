@@ -7,7 +7,7 @@
     "docker-event-emitter": "^0.3.0",
     "dockerode": "^3.2.1",
     "express": "^4.17.1",
-    "socket.io": "^3.0.5"
+    "socket.io": "^3.1.0"
   },
   "prettier": {
     "trailingComma": "es5",

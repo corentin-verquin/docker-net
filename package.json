@@ -21,7 +21,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "browser-sync": "^2.26.14",
-    "concurrently": "^6.0.0",
+    "concurrently": "^6.2.2",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",

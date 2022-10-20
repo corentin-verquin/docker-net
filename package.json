@@ -19,7 +19,7 @@
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.5",
     "browser-sync": "^2.26.14",
     "concurrently": "^7.4.0",
     "del": "^6.0.0",
